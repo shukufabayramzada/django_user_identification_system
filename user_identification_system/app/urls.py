@@ -19,4 +19,8 @@ urlpatterns = [
     path('users/<uuid:id>/activate', UserViewSet.as_view({"get": "activate_user"}), name='user-activate'),
     path('users/<uuid:id>/deactivate', UserViewSet.as_view({"get": "deactivate_user"}), name='user-deactivate'),
     
+    # swagger and redoc paths
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    
 ]
