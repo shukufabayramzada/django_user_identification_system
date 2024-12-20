@@ -10,7 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from app.serializers.user_serializer import UserSerializer
 from app.serializers.verify_otp_serializer import VerifyOTPSerializer
 from app.serializers.swaggerdummy_serializer import SwaggerDummySerializer
-from rest_framework import status
+from app.serializers.logout_serializer import LogoutUserSerializer
+from rest_framework import status, serializers
 from django.shortcuts import get_object_or_404
 from .utils import  resend_code_to_user
 from datetime import timedelta
@@ -164,3 +165,28 @@ class TestAuthenticationView(GenericAPIView):
             'message': "It is working"
         }
         return Response(data, status=status.HTTP_200_OK)
+    
+
+class LogoutUserView(GenericAPIView):
+    serializer_class = LogoutUserSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        try:
+            serializer.save()
+            return Response({"detail": "Logout successful."}, status=status.HTTP_200_OK)
+        
+        except serializers.ValidationError as e:
+            # Handles specific validation errors if needed
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except Exception as e:
+            # General error handler for unexpected issues
+            return Response(
+                {"detail": "An error occurred during logout. Please try again."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+

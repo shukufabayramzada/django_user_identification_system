@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', LoginUserView.as_view(), name='login'),
     path('profile/', TestAuthenticationView.as_view(), name='granted'),
     path('token/refresh/', TokenRefreshView.as_view(), name='refresh-token'),
-    # path('logout/', LogoutUserView.as_view(), name='logout'),
+    path('logout/', LogoutUserView.as_view(), name='logout'),
      
     # all paths from router
     path('', include(router.urls)),
