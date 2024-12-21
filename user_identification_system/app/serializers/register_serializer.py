@@ -12,8 +12,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'first_name', 'last_name', 'username', 'email', 'password', 'password2',
-            'date_of_birth', 'sex'
+            'date_of_birth', 'sex', 'age'
         ]
+        read_only_fields = ['age']
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True},
